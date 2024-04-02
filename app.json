@@ -37,6 +37,18 @@
           "./assets/fonts/Poppins-SemiBold.ttf",
           "./assets/fonts/Poppins-Light.ttf"
         ]
+      },
+      "expo-location", 
+      {
+        "locationAlwaysAndWhenInUsePermission": "Allow Wildlife Diaries to use your location."
+      },
+      "expo-image-picker",
+      {
+        "photosPermission": "The app accesses your photos to let you share them."
+      },
+      "expo-camera",
+      {
+        "cameraPermission": "Allow Wildlife Diaries to access your camera"
       }
     ]
   }
