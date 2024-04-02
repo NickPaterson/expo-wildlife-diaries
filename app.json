@@ -1,5 +1,6 @@
 {
   "expo": {
+    "scheme": "wildlife-diaries",
     "name": "wildlife-diaries",
     "slug": "wildlife-diaries",
     "version": "1.0.0",
@@ -25,6 +26,18 @@
     },
     "web": {
       "favicon": "./assets/favicon.png"
-    }
+    },
+    "pugins": [
+      "expo-font",
+      {
+        "fonts": [
+          "./assets/fonts/Poppins-Regular.ttf",
+          "./assets/fonts/Poppins-Medium.ttf",
+          "./assets/fonts/Poppins-Bold.ttf",
+          "./assets/fonts/Poppins-SemiBold.ttf",
+          "./assets/fonts/Poppins-Light.ttf"
+        ]
+      }
+    ]
   }
 }
