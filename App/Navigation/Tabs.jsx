@@ -45,7 +45,7 @@ export default function Tabs() {
                     ),
                 }}
             />
-            <Tab.Screen name="Notes" component={NotesScreen}
+            <Tab.Screen name="Diary" component={NotesScreen}
                 options={{
                     tabBarActiveBackgroundColor: Colours.LIGHT,
                     tabBarInactiveBackgroundColor: Colours.LIGHT,
