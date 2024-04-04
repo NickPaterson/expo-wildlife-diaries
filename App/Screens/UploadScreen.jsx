@@ -38,7 +38,7 @@ export default function UploadsScreen() {
       aspect: [4, 3],
       quality: 1,
     });
-    if (!result.canceled) {
+    if (!result.canceled && result.assets && result.assets.length > 0) {
       setImage(result.assets[0].uri);
     }
     setIsLoading(false);
@@ -53,8 +53,9 @@ export default function UploadsScreen() {
       aspect: [4, 3],
       quality: 1,
     });
-    if (!result.canceled) {
-      setImage(result.uri);
+    if (!result.canceled && result.assets && result.assets.length > 0) {
+      const uri = result.assets[0].uri;
+      setImage(uri);
     }
     setIsLoading(false);
   };
