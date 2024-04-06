@@ -1,6 +1,6 @@
 import { View, Text, StyleSheet, Button, Image, TouchableOpacity, ImageBackground, ScrollView } from 'react-native'
 import React, { useEffect, useState, useContext } from 'react'
-import { TextInput, ActivityIndicator } from 'react-native-paper';
+import { TextInput, ActivityIndicator, Snackbar, Checkbox } from 'react-native-paper';
 import * as ImagePicker from 'expo-image-picker';
 import Colours from '../Utils/Colours';
 import { FontAwesomeIcon } from '@fortawesome/react-native-fontawesome';
@@ -8,8 +8,12 @@ import { faCamera, faImage, faFeatherPointed } from '@fortawesome/pro-solid-svg-
 import { useNotes } from '../Context/UserNotesContext';
 import { UserLocationContext } from '../Context/UserLocationContext';
 import MapView, { PROVIDER_GOOGLE, Marker } from 'react-native-maps';
+import { useUser, useAuth } from '@clerk/clerk-expo';
 
 export default function UploadsScreen() {
+  const { userId } = useAuth();
+  const { user } = useUser();
+  
   const [formData, setFormData] = useState({
     title: '',
     description: '',
@@ -28,6 +32,14 @@ export default function UploadsScreen() {
     latitude: location?.latitude,
     longitude: location?.longitude,
   });
+
+  const [snackBarVisible, setSnackBarVisible] = useState(false);
+  const [snackBarMessage, setSnackBarMessage] = useState('');
+
+  const displaySnackbar = (message) => {
+    setSnackBarMessage(message);
+    setSnackBarVisible(true);
+  }
 
   const pickImage = async () => {
     // No permissions request is necessary for launching the image library
@@ -69,6 +81,11 @@ export default function UploadsScreen() {
     }
     const note = {
       id: Date.now(),
+      user: {
+        id: userId,
+        name: user.firstName,
+        username: user.username,
+      },
       title: formData.title,
       description: formData.description,
       image: image,
@@ -79,12 +96,25 @@ export default function UploadsScreen() {
         longitude: markerLocation.longitude,
       },
     };
+    
     addNote(note);
+    displaySnackbar('Note added');
+    setFormData({
+      title: '',
+      description: '',
+      image: '',
+      location: {
+        latitude: location?.latitude,
+        longitude: location?.longitude,
+      },
+    });
+    setImage(null);
 
 
   }
 
   return (
+    <>
     <ScrollView>
       <ImageBackground source={require('./../../assets/images/wildlife-app-bg.png')} style={styles.backgroundImage}>
 
@@ -183,6 +213,18 @@ export default function UploadsScreen() {
 
       </ImageBackground>
     </ScrollView>
+    <Snackbar
+    visible={snackBarVisible}
+    onDismiss={() => setSnackBarVisible(false)}
+    duration={5000}
+    style={styles.snackbar}
+    action={{
+      label: 'X',
+    }}
+  >
+    {snackBarMessage}
+  </Snackbar>
+  </>
   )
 }
 

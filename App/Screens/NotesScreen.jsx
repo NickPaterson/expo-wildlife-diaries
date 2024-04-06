@@ -1,14 +1,17 @@
 import { View, Text, StyleSheet, ScrollView, TouchableOpacity, Image } from 'react-native'
-import React, { useEffect, useState } from 'react'
+import React, { useEffect, useState, useCallback, useMemo, useRef } from 'react'
 import { useNotes } from '../Context/UserNotesContext';
 import { Card, Modal, Portal, Button, Snackbar, TextInput, Tooltip, ActivityIndicator } from 'react-native-paper';
 import Colours from '../Utils/Colours';
 import MapView, { PROVIDER_GOOGLE, Marker } from 'react-native-maps';
 import { FontAwesomeIcon } from '@fortawesome/react-native-fontawesome';
-import { faFeatherPointed, faInfoCircle, faImage, faCamera } from '@fortawesome/pro-solid-svg-icons';
-import * as ImagePicker from 'expo-image-picker';
+import { faFeatherPointed, faInfoCircle, faImage, faCamera, faHeart } from '@fortawesome/pro-solid-svg-icons';
+import { faHeart as faHeartOutline } from '@fortawesome/pro-regular-svg-icons';
 
+import * as ImagePicker from 'expo-image-picker';
+import { useAuth } from '@clerk/clerk-expo';
 export default function NotesScreen() {
+  const { userId } = useAuth();
   const [modalVisible, setModalVisible] = useState(false);
   const [snackBarVisible, setSnackBarVisible] = useState(false);
   const [snackBarMessage, setSnackBarMessage] = useState('');
@@ -27,7 +30,10 @@ export default function NotesScreen() {
   });
 
 
-  const { notes, removeNote, updateNote } = useNotes();
+  const { notes, favourites, addFavourite, removeFavourite, removeNote, updateNote } = useNotes();
+  const userNotes = notes.filter((note) => note.user.id === userId);
+
+
   const displaySnackbar = (message) => {
     setSnackBarMessage(message);
     setSnackBarVisible(true);
@@ -79,6 +85,18 @@ export default function NotesScreen() {
     setEditModalVisible(false);
     displaySnackbar('Note updated');
   }
+
+  const toggleFavorite = (note) => {
+    if (favourites.find((fav) => fav.id === note.id)) {
+      removeFavourite(note.id);
+      displaySnackbar('Removed from favourites');
+    } else {
+      addFavourite(note);
+      displaySnackbar('Added to favourites');
+    }
+  }
+
+
 
   return (<>
 
@@ -255,7 +273,7 @@ export default function NotesScreen() {
           </Card>
         </Modal>
       </Portal>
-      {notes && notes.map((note) => {
+      {userNotes && userNotes.map((note) => {
         return (
           <Card key={note.id} style={styles.card} onPress={() => handlePress(note)}>
             <Card.Cover source={{ uri: note.image }} />
@@ -284,13 +302,30 @@ export default function NotesScreen() {
                 minute: 'numeric'
               })}</Text>
             </Card.Actions>
+            <Card.Actions>
+              <Button
+                onPress={() => toggleFavorite(note)}
+              >
+              
+                {favourites.includes(note)
+                  ? <FontAwesomeIcon icon={faHeart} style={styles.heartIcon} />
+                  : <FontAwesomeIcon icon={faHeartOutline} style={styles.heartOutlineIcon} />
+                  
+                }
+
+                
+              </Button>
+            </Card.Actions>
           </Card>
         )
       })}
-      {notes.length === 0 && <Text>No diary enteries to display</Text>}
+      {userNotes.length === 0 && <Text>No diary enteries to display</Text>}
 
     </ScrollView>
 
+
+
+    {/* Popup messages */}
     <Snackbar
       visible={snackBarVisible}
       onDismiss={() => setSnackBarVisible(false)}
@@ -397,6 +432,12 @@ const styles = StyleSheet.create({
     width: '100%',
     height: 240,
     objectFit: 'contain',
+  },
+  heartIcon: {
+    color: Colours.DANGER,
+  },
+  heartOutlineIcon: {
+    color: 'grey',
   },
 
 });

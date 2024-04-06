@@ -12,7 +12,8 @@ import { PaperProvider } from 'react-native-paper';
 import * as Location from 'expo-location';
 import { UserLocationContext } from './App/Context/UserLocationContext';
 import { NotesProvider } from './App/Context/UserNotesContext';
-
+import { BottomSheetModalProvider } from '@gorhom/bottom-sheet'
+import { GestureHandlerRootView } from 'react-native-gesture-handler'
 SplashScreen.preventAutoHideAsync();
 
 const tokenCache = {
@@ -91,17 +92,21 @@ export default function App() {
       <PaperProvider>
         <NotesProvider>
           <UserLocationContext.Provider value={{ location, setLocation }}>
-            <View style={styles.container} onLayout={onLayoutRootView}>
-              <SignedIn>
-                <NavigationContainer>
-                  <Tabs />
-                </NavigationContainer>
-              </SignedIn>
-              <SignedOut>
-                <LoginScreen />
-              </SignedOut>
-              <StatusBar style="auto" />
-            </View>
+            <GestureHandlerRootView style={{ flex: 1 }}>
+              <BottomSheetModalProvider>
+                <View style={styles.container} onLayout={onLayoutRootView}>
+                  <SignedIn>
+                    <NavigationContainer>
+                      <Tabs />
+                    </NavigationContainer>
+                  </SignedIn>
+                  <SignedOut>
+                    <LoginScreen />
+                  </SignedOut>
+                  <StatusBar style="auto" />
+                </View>
+              </BottomSheetModalProvider>
+            </GestureHandlerRootView>
           </UserLocationContext.Provider>
         </NotesProvider>
       </PaperProvider>

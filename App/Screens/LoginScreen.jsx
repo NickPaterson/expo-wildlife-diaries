@@ -14,7 +14,7 @@ export default function LoginScreen() {
 
     const { startOAuthFlow } = useOAuth({ strategy: "oauth_google" });
 
-    const onPress = async () => {
+    const SignInWithGoogle = async () => {
         try {
             const { createdSessionId, signIn, signUp, setActive } =
                 await startOAuthFlow();
@@ -29,6 +29,8 @@ export default function LoginScreen() {
         }
     };
 
+    
+
     return (
         <View>
             <ImageBackground source={require('./../../assets/images/wildlife-app-bg.png')} style={styles.backgroundImage}>
@@ -37,10 +39,12 @@ export default function LoginScreen() {
                         <Text style={styles.heading}>Wildlife Diaries</Text>
                     </ImageBackground>
                     <TouchableOpacity style={styles.button}
-                        onPress={onPress}
+                        onPress={SignInWithGoogle}
                     >
                         <Text>Login in with Google</Text>
                     </TouchableOpacity>
+                   
+                    
                 </View>
             </ImageBackground>
         </View>
@@ -52,7 +56,7 @@ const styles = StyleSheet.create({
         flex: 1,
         padding: 20,
         paddingTop: 100,
-        fontFamily: 'poppings',
+
         alignItems: 'center',
         gap: 20,
     },
@@ -69,7 +73,7 @@ const styles = StyleSheet.create({
         backgroundColor: 'transparent',
         justifyContent: 'center',
         alignItems: 'center',
-        fontFamily: 'poppings',
+
     },
     heading: {
         fontSize: 30,
@@ -85,7 +89,7 @@ const styles = StyleSheet.create({
         padding: 15,
         alignItems: 'center',
         marginTop: 40,
-        fontFamily: 'poppings-bold',
+
 
     },
 })
