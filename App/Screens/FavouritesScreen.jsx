@@ -1,11 +1,12 @@
 import { View, Text, StyleSheet } from 'react-native'
-import React, {useState} from 'react'
+import React, { useState } from 'react'
 import { useNotes } from '../Context/UserNotesContext';
 import Colours from '../Utils/Colours';
-import { Card, Button, Snackbar } from'react-native-paper';
+import { Card, Button, Snackbar } from 'react-native-paper';
 import { FontAwesomeIcon } from '@fortawesome/react-native-fontawesome';
 import { faHeart } from '@fortawesome/pro-solid-svg-icons';
 import { faHeart as faHeartOutline } from '@fortawesome/pro-regular-svg-icons';
+import { ScrollView } from 'react-native-gesture-handler';
 
 export default function FavouritesScreen() {
 
@@ -27,13 +28,15 @@ export default function FavouritesScreen() {
   }
 
   return (
-    <View style={styles.container}>
+    <ScrollView style={styles.container}>
       {favourites && favourites.length > 0 ? (
         favourites.map((note) => (
-          <Card key={note.id} style={styles.card} onPress={() => handlePress(note)}>
+          <Card key={note.id} style={styles.card} >
             <Card.Cover source={{ uri: note.image }} />
             <Card.Title title={note.title} />
+            
             <Card.Content>
+              <Text style={styles.username}>By: {note.user.username}</Text>
               <Text>{note.description}</Text>
             </Card.Content>
             <Card.Actions>
@@ -61,14 +64,10 @@ export default function FavouritesScreen() {
               <Button
                 onPress={() => toggleFavorite(note)}
               >
-
                 {favourites.includes(note)
                   ? <FontAwesomeIcon icon={faHeart} style={styles.heartIcon} />
                   : <FontAwesomeIcon icon={faHeartOutline} style={styles.heartOutlineIcon} />
-
                 }
-
-
               </Button>
             </Card.Actions>
           </Card>
@@ -76,18 +75,18 @@ export default function FavouritesScreen() {
       ) : (
         <Text style={styles.text}>No favourites yet</Text>
       )}
-          <Snackbar
-      visible={snackBarVisible}
-      onDismiss={() => setSnackBarVisible(false)}
-      duration={5000}
-      style={styles.snackbar}
-      action={{
-        label: 'X',
-      }}
-    >
-      {snackBarMessage}
-    </Snackbar>
-    </View>
+      <Snackbar
+        visible={snackBarVisible}
+        onDismiss={() => setSnackBarVisible(false)}
+        duration={5000}
+        style={styles.snackbar}
+        action={{
+          label: 'X',
+        }}
+      >
+        {snackBarMessage}
+      </Snackbar>
+    </ScrollView>
   )
 }
 
@@ -95,6 +94,7 @@ const styles = StyleSheet.create({
   container: {
     flex: 1,
     padding: 24,
+    marginBottom: 50,
   },
   card: {
     margin: 10,
@@ -109,8 +109,11 @@ const styles = StyleSheet.create({
   heartOutlineIcon: {
     color: 'grey',
   },
-  snackbar: {
-    backgroundColor: Colours.BLACK,
-    color: Colours.LIGHT,
-  },
+  username: {
+    backgroundColor: 'lightgrey',
+    paddingTop: 4,
+    paddingBottom: 4,
+    borderRadius: 5,
+    marginBottom: 10,
+  }
 });

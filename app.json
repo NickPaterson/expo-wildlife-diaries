@@ -28,6 +28,10 @@
       "favicon": "./assets/favicon.png"
     },
     "pugins": [
+      "expo-barcode-scanner",
+      {
+        "cameraPermission": "Allow Wildlife Diaries to access camera."
+      },
       "expo-location",
       {
         "locationAlwaysAndWhenInUsePermission": "Allow Wildlife Diaries to use your location."
@@ -35,7 +39,7 @@
       [
         "expo-image-picker",
         {
-          "photosPermission": "The app accesses your photos to let you share them."
+          "photosPermission": "Wildlife Diaries accesses your photos to let you share them."
         }
       ],
       [
