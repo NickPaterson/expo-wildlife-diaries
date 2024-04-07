@@ -18,7 +18,7 @@ export default function LoginScreen() {
         try {
             const { createdSessionId, signIn, signUp, setActive } =
                 await startOAuthFlow();
-    
+
             if (createdSessionId) {
                 setActive({ session: createdSessionId });
             } else {
@@ -29,7 +29,7 @@ export default function LoginScreen() {
         }
     };
 
-    
+
 
     return (
         <View>
@@ -43,8 +43,8 @@ export default function LoginScreen() {
                     >
                         <Text>Login in with Google</Text>
                     </TouchableOpacity>
-                   
-                    
+
+        
                 </View>
             </ImageBackground>
         </View>

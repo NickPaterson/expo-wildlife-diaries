@@ -13,7 +13,8 @@ import * as Location from 'expo-location';
 import { UserLocationContext } from './App/Context/UserLocationContext';
 import { NotesProvider } from './App/Context/UserNotesContext';
 import { BottomSheetModalProvider } from '@gorhom/bottom-sheet'
-import { GestureHandlerRootView } from 'react-native-gesture-handler'
+import { GestureHandlerRootView } from 'react-native-gesture-handler';
+
 SplashScreen.preventAutoHideAsync();
 
 const tokenCache = {
@@ -38,7 +39,7 @@ export default function App() {
   const [location, setLocation] = useState(null);
   const [errorMsg, setErrorMsg] = useState(null);
   const [loading, setLoading] = useState(true); // Added loading state
-
+  
   // Expo fonts
   const [fontsLoaded, fontError] = useFonts({
     'poppins': require('./assets/fonts/Poppins-Regular.ttf'),
@@ -119,7 +120,8 @@ const styles = StyleSheet.create({
     flex: 1,
     backgroundColor: '#fff',
     paddingTop: 0,
-    justifyContent: 'center', // Center content vertically
+    justifyContent: 'center',
+    fontFamily: 'poppins',
   },
   loader: {
     flex: 1,
