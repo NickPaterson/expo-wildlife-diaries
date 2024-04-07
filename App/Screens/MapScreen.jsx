@@ -31,24 +31,10 @@ export default function MapScreen() {
     setMarkers(showNotes);
   }, []); 
 
-  // const markerList = showNotes.map((note) => {
-  //   return (
-  //     <Marker
-  //       key={note.id}
-  //       coordinate={{
-  //         latitude: note.location.latitude,
-  //         longitude: note.location.longitude,
-  //       }}
-  //       onPress={() => handleOpenPress(note)}
-  //     >
-  //       <FontAwesomeIcon
-  //         icon={faFeatherPointed}
-  //         size={30}
-  //         style={styles.marker} />
-  //     </Marker>
-  //   );
-  // });
   const setMarkers = (notes) => {
+    if (notes.length === 0) {
+      return [];
+    }
     setMarkerList(notes.map((note) => {
       return (
         <Marker
