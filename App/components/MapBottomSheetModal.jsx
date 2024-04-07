@@ -7,8 +7,6 @@ import { Avatar, Button } from 'react-native-paper';
 const MapBottomSheetModal = forwardRef((props, ref) => {
     const snapPoints = useMemo(() => ['40%', '50%', '75%'], []);
 
-    console.log("MapBottomSheetModal");
-    console.log(props.note.user);
     return (
 
         <BottomSheetModal

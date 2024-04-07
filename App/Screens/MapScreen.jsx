@@ -3,40 +3,41 @@ import React, { useState, useContext, useRef, useEffect } from 'react'
 import MapView, { PROVIDER_GOOGLE, Marker } from 'react-native-maps';
 import { UserLocationContext } from '../Context/UserLocationContext';
 import { FontAwesomeIcon } from '@fortawesome/react-native-fontawesome';
-import { faFeatherPointed } from '@fortawesome/pro-solid-svg-icons';
+import { faFeatherPointed } from '@fortawesome/pro-duotone-svg-icons';
 import Colours from '../Utils/Colours';
 import { Checkbox } from 'react-native-paper';
-// import MapBottomSheet from '../components/MapBottomSheet';
 import MapBottomSheetModal from '../components/MapBottomSheetModal';
 import { useNotes } from '../Context/UserNotesContext';
 import { useAuth } from '@clerk/clerk-react';
 
 export default function MapScreen() {
-  const { location, setLocation } = useContext(UserLocationContext);
+  const { location } = useContext(UserLocationContext);
   const { notes } = useNotes();
+
   const { userId } = useAuth();
-  let showNotes = notes;
   const [activeNote, setActiveNote] = useState(null);
+  const [visibleNotes, setVisibleNotes] = useState(notes);
   const [userNotesChecked, setUserNoteChecked] = useState(false);
   const [markerList, setMarkerList] = useState();
   const bottomSheetRef = useRef(null);
+
+  // Bottom Sheet 
   const handleClosePress = () => bottomSheetRef.current?.dismiss();
-  // const handleOpenPress = () => bottomSheetRef.current?.expand();
   const handleOpenPress = (note) => {
     setActiveNote(note);
     bottomSheetRef.current?.present();
-  }
+  };
+
+  // Visble Notes
+  useEffect(() => {
+    userNotesChecked
+      ? setVisibleNotes(notes.filter((note) => note.user.id === userId))
+      : setVisibleNotes(notes);
+  }, [userNotesChecked]);
 
   useEffect(() => {
-    setMarkers(showNotes);
-  }, []); 
-
-  const setMarkers = (notes) => {
-    if (notes.length === 0) {
-      return [];
-    }
-    setMarkerList(notes.map((note) => {
-      return (
+    setMarkerList(
+      visibleNotes.map((note) => (
         <Marker
           key={note.id}
           coordinate={{
@@ -50,29 +51,20 @@ export default function MapScreen() {
             size={30}
             style={styles.marker} />
         </Marker>
-      );
-    }));
-  };
+      ))
+    );
+  }, [visibleNotes]);
 
-  useEffect(() => {
-    if (userNotesChecked) {
-      showNotes = notes.filter((note) => note.user.id === userId);
-      setMarkers(showNotes);
-      console.log(showNotes);
-    } else {
-      showNotes = notes;
-      setMarkers(showNotes);
-    }
-  }, [userNotesChecked]);
+
   return (
     <View style={styles.container}>
       <Text style={styles.checkboxContainer}>Show My Notes Only
-        <Checkbox 
-        style={styles.checkbox}
-        status={userNotesChecked ? 'checked' : 'unchecked'}
-        onPress={() => setUserNoteChecked(!userNotesChecked)}
+        <Checkbox
+          style={styles.checkbox}
+          status={userNotesChecked ? 'checked' : 'unchecked'}
+          onPress={() => setUserNoteChecked(!userNotesChecked)}
         />
-        </Text>
+      </Text>
       <MapView
         style={styles.map}
         provider={PROVIDER_GOOGLE}
@@ -87,15 +79,13 @@ export default function MapScreen() {
         {markerList}
       </MapView>
       {activeNote && (
-        // <MapBottomSheet ref={bottomSheetRef} handleOpenPress={handleOpenPress} note={activeNote} />
-
-          <MapBottomSheetModal 
-          ref={bottomSheetRef} 
-          handleOpenPress={handleOpenPress} 
+        <MapBottomSheetModal
+          ref={bottomSheetRef}
+          handleOpenPress={handleOpenPress}
           handleClosePress={handleClosePress}
           note={activeNote} />
-
       )}
+
 
     </View>
   )
