@@ -3,12 +3,12 @@ import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
 
 import { useNavigation } from '@react-navigation/native';
 import { TouchableOpacity } from 'react-native';
-
+import QRStackNavigator from './../Navigation/QrStack';
 import MapScreen from './../Screens/MapScreen';
 import NotesScreen from './../Screens/NotesScreen';
 import UploadScreen from './../Screens/UploadScreen';
 import FavouritesScreen from './../Screens/FavouritesScreen';
-import QRScannerScreen from './../Screens/QRScannerScreen';
+
 import ProfileScreen from './../Screens/ProfileScreen';
 import SettingsScreen from './../Screens/SettingsScreen';
 
@@ -97,7 +97,7 @@ export default function Tabs() {
                     ),
                 }}
             />
-            <Tab.Screen name="QRScanner" component={QRScannerScreen}
+            <Tab.Screen name="QRScanner" component={QRStackNavigator}
                 options={{
                     tabBarActiveBackgroundColor: Colours.LIGHT,
                     tabBarInactiveBackgroundColor: Colours.LIGHT,
