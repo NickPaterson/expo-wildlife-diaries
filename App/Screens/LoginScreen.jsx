@@ -8,28 +8,20 @@ import { useOAuth } from "@clerk/clerk-expo";
 WebBrowser.maybeCompleteAuthSession();
 
 export default function LoginScreen() {
-    // Warm up the android browser to improve UX
-    // https://docs.expo.dev/guides/authentication/#improving-user-experience
+    // Warm up the android browser to improve UX https://docs.expo.dev/guides/authentication/#improving-user-experience
     useWarmUpBrowser();
-
     const { startOAuthFlow } = useOAuth({ strategy: "oauth_google" });
-
     const SignInWithGoogle = async () => {
         try {
-            const { createdSessionId, signIn, signUp, setActive } =
+            const { createdSessionId, setActive } =
                 await startOAuthFlow();
-
             if (createdSessionId) {
                 setActive({ session: createdSessionId });
-            } else {
-                // Use signIn or signUp for next steps such as MFA
             }
         } catch (err) {
             console.error("OAuth error", err);
         }
     };
-
-
 
     return (
         <View>
@@ -43,13 +35,11 @@ export default function LoginScreen() {
                     >
                         <Text>Login in with Google</Text>
                     </TouchableOpacity>
-
-        
                 </View>
             </ImageBackground>
         </View>
     )
-}
+};
 
 const styles = StyleSheet.create({
     container: {

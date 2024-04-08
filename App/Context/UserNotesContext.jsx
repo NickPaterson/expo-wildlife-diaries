@@ -17,7 +17,6 @@ export const NotesProvider = ({ children }) => {
       if (savedFavourites) setFavourites(JSON.parse(savedFavourites));
 
     };
-
     fetchNotes();
   }, []);
 
@@ -28,8 +27,6 @@ export const NotesProvider = ({ children }) => {
   useEffect(() => {
     AsyncStorage.setItem('favourites', JSON.stringify(favourites));
   }, [favourites]);
-
-
 
   const addNote = (note) => {setNotes((currentNotes) => [...currentNotes, note]);}
   const removeNote = (id) => setNotes((currentNotes) => currentNotes.filter((note) => note.id !== id));

@@ -37,7 +37,7 @@ const tokenCache = {
 export default function App() {
   const [location, setLocation] = useState(null);
   const [errorMsg, setErrorMsg] = useState(null);
-  const [loading, setLoading] = useState(true); // Added loading state
+  const [loading, setLoading] = useState(true); 
 
   // Expo fonts
   const [fontsLoaded, fontError] = useFonts({

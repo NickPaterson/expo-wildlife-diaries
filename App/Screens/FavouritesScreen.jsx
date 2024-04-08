@@ -1,6 +1,5 @@
 import { View, Text, StyleSheet } from 'react-native'
 import React, { useState } from 'react'
-import { useNotes } from '../Context/UserNotesContext';
 import Colours from '../Utils/Colours';
 import { Card, Button, Snackbar } from 'react-native-paper';
 import { FontAwesomeIcon } from '@fortawesome/react-native-fontawesome';
@@ -8,11 +7,12 @@ import { faHeart } from '@fortawesome/pro-solid-svg-icons';
 import { faHeart as faHeartOutline } from '@fortawesome/pro-regular-svg-icons';
 import { ScrollView } from 'react-native-gesture-handler';
 
+import { useNotes } from '../Context/UserNotesContext';
 export default function FavouritesScreen() {
-
   const { favourites, addFavourite, removeFavourite } = useNotes();
   const [snackBarVisible, setSnackBarVisible] = useState(false);
   const [snackBarMessage, setSnackBarMessage] = useState('');
+
   const toggleFavorite = (note) => {
     if (favourites.includes(note)) {
       removeFavourite(note.id);

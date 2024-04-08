@@ -8,15 +8,10 @@ export default function ProfileScreen() {
   const { user } = useUser();
   const { signOut } = useAuth();
 
-  const updateAvatar = () => {
-    console.log('update avatar');
-  }
-
-
   console.log(user);
   return (
     <View style={styles.container}>
-      <TouchableOpacity onPress={updateAvatar}>
+      <TouchableOpacity onPress={() => console.log("TODO: Update Avatar")}>
         <Avatar.Image source={{ uri: user.imageUrl }} size={72} />
       </TouchableOpacity>
 

@@ -96,10 +96,7 @@ export default function NotesScreen() {
     }
   }
 
-
-
   return (<>
-
     <ScrollView style={styles.container}>
       <Portal>
         <Modal

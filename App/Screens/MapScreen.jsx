@@ -13,10 +13,10 @@ import { useAuth } from '@clerk/clerk-react';
 export default function MapScreen() {
   const { location } = useContext(UserLocationContext);
   const { notes } = useNotes();
+  const [visibleNotes, setVisibleNotes] = useState(notes);
 
   const { userId } = useAuth();
   const [activeNote, setActiveNote] = useState(null);
-  const [visibleNotes, setVisibleNotes] = useState(notes);
   const [userNotesChecked, setUserNoteChecked] = useState(false);
   const [markerList, setMarkerList] = useState();
   const bottomSheetRef = useRef(null);
@@ -35,6 +35,7 @@ export default function MapScreen() {
       : setVisibleNotes(notes);
   }, [userNotesChecked]);
 
+  // Sets the markers when the page loads and when the visable notes are updated
   useEffect(() => {
     setMarkerList(
       visibleNotes.map((note) => (
@@ -53,7 +54,7 @@ export default function MapScreen() {
         </Marker>
       ))
     );
-  }, [visibleNotes]);
+  }, [visibleNotes], []);
 
 
   return (
