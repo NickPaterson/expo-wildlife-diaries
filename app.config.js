@@ -21,7 +21,8 @@ module.exports = {
     adaptiveIcon: {
       foregroundImage: "./assets/images/adaptive-icon.png",
       backgroundColor: "#FFFFFF"
-    }
+    },
+    package: "com.npgb.wildlifediaries",
   },
   plugins: [
     "expo-barcode-scanner",
