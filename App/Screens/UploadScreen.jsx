@@ -92,7 +92,6 @@ export default function UploadsScreen() {
       longitude: markerLocation.longitude,
     };
 
-    console.log(note);
     addNote(note);
     displaySnackbar('Note added');
     setFormData({
