@@ -37,7 +37,6 @@ export const NotesProvider = ({ children }) => {
       };
     }
     fetchNotes();
-    console.log(notes);
   }, []);
 
   // useEffect(() => {

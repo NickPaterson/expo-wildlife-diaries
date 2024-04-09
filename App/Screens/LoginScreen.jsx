@@ -25,9 +25,9 @@ export default function LoginScreen() {
 
     return (
         <View>
-            <ImageBackground source={require('./../../assets/images/wildlife-app-bg.png')} style={styles.backgroundImage}>
+            <ImageBackground source={require('./../../assets/images/wildlifeappbg.png')} style={styles.backgroundImage}>
                 <View style={styles.container}>
-                    <ImageBackground source={require('./../../assets/images/onboarding-header-bg.png')} style={styles.headerImage}>
+                    <ImageBackground source={require('./../../assets/images/onboardingheaderbg.png')} style={styles.headerImage}>
                         <Text style={styles.heading}>Wildlife Diaries</Text>
                     </ImageBackground>
                     <TouchableOpacity style={styles.button}

@@ -111,7 +111,7 @@ export default function UploadsScreen() {
   return (
     <>
       <ScrollView>
-        <ImageBackground source={require('./../../assets/images/wildlife-app-bg.png')} style={styles.backgroundImage}>
+        <ImageBackground source={require('./../../assets/images/wildlifeappbg.png')} style={styles.backgroundImage}>
 
           <View style={styles.formContainer}>
             <View style={styles.imageUploadBtns}>
