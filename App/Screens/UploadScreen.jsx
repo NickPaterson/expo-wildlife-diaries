@@ -13,7 +13,7 @@ import { useUser, useAuth } from '@clerk/clerk-expo';
 export default function UploadsScreen() {
   const { userId } = useAuth();
   const { user } = useUser();
-  
+
   const [formData, setFormData] = useState({
     title: '',
     description: '',
@@ -81,22 +81,18 @@ export default function UploadsScreen() {
     }
     const note = {
       id: Date.now(),
-      user: {
-        id: userId,
-        name: user.firstName,
-        username: user.username,
-      },
+      user_id: userId,
+      username: user.username,
       title: formData.title,
       description: formData.description,
       image: image,
       createdAt: new Date().toISOString(),
       updatedAt: new Date().toISOString(),
-      location: {
-        latitude: markerLocation.latitude,
-        longitude: markerLocation.longitude,
-      },
+      latitude: markerLocation.latitude,
+      longitude: markerLocation.longitude,
     };
-    
+
+    console.log(note);
     addNote(note);
     displaySnackbar('Note added');
     setFormData({
@@ -115,116 +111,116 @@ export default function UploadsScreen() {
 
   return (
     <>
-    <ScrollView>
-      <ImageBackground source={require('./../../assets/images/wildlife-app-bg.png')} style={styles.backgroundImage}>
+      <ScrollView>
+        <ImageBackground source={require('./../../assets/images/wildlife-app-bg.png')} style={styles.backgroundImage}>
 
-        <View style={styles.formContainer}>
-          <View style={styles.imageUploadBtns}>
-            <TouchableOpacity onPress={pickImage} style={styles.imageUploadBtn}>
-              <FontAwesomeIcon icon={faImage} size={30} style={styles.icon} />
-              <Text style={styles.text}>Pick an image</Text>
+          <View style={styles.formContainer}>
+            <View style={styles.imageUploadBtns}>
+              <TouchableOpacity onPress={pickImage} style={styles.imageUploadBtn}>
+                <FontAwesomeIcon icon={faImage} size={30} style={styles.icon} />
+                <Text style={styles.text}>Pick an image</Text>
 
-              {error && <Text style={styles.error}>{error}</Text>}
-            </TouchableOpacity>
+                {error && <Text style={styles.error}>{error}</Text>}
+              </TouchableOpacity>
 
-            <TouchableOpacity onPress={takeImage} style={styles.imageUploadBtn}>
-              <FontAwesomeIcon icon={faCamera} size={30} style={styles.icon} />
-              <Text style={styles.text}>Take a picture</Text>
-              {error && <Text style={styles.error}>{error}</Text>}
+              <TouchableOpacity onPress={takeImage} style={styles.imageUploadBtn}>
+                <FontAwesomeIcon icon={faCamera} size={30} style={styles.icon} />
+                <Text style={styles.text}>Take a picture</Text>
+                {error && <Text style={styles.error}>{error}</Text>}
+              </TouchableOpacity>
+            </View>
+
+            {isLoading ? (
+              <ActivityIndicator size="large" color={Colours.PRIMARY} />
+            ) : (
+              image && (
+                <View style={styles.imagePreviewContainer}>
+                  <Image source={{ uri: image }} style={styles.imagePreview} resizeMode="contain" />
+                </View>
+              )
+            )}
+
+            {error && <Text style={styles.error}>{error}</Text>}
+
+
+
+            <TextInput
+              label="Title"
+              value={formData.title}
+              onChangeText={(text) => setFormData({ ...formData, title: text })}
+              mode="outlined"
+              style={styles.input}
+              outlineColor={Colours.DARK}
+              activeOutlineColor={Colours.DARK}
+            />
+            <TextInput
+              label="Description"
+              value={formData.description}
+              onChangeText={(text) => setFormData({ ...formData, description: text })}
+              mode="outlined"
+              style={styles.input}
+              outlineColor={Colours.DARK}
+              activeOutlineColor={Colours.DARK}
+              multiline={true}
+              numberOfLines={4}
+            />
+
+            <MapView
+              provider={PROVIDER_GOOGLE}
+              style={styles.map}
+              region={{
+                latitude: location?.latitude,
+                longitude: location?.longitude,
+                latitudeDelta: 0.0922,
+                longitudeDelta: 0.0421,
+              }}
+
+            >
+              <Marker
+                draggable
+                coordinate={{
+                  latitude: markerLocation?.latitude,
+                  longitude: markerLocation?.longitude,
+                }}
+                onDragEnd={(e) => {
+                  setMarkerLocation({
+                    latitude: e.nativeEvent.coordinate.latitude,
+                    longitude: e.nativeEvent.coordinate.longitude,
+                  });
+                  setFormData({
+                    ...formData,
+                    latitude: e.nativeEvent.coordinate.latitude,
+                    longitude: e.nativeEvent.coordinate.longitude,
+                  });
+                }}
+              >
+                <FontAwesomeIcon icon={faFeatherPointed} size={30} style={styles.marker} />
+
+              </Marker>
+            </MapView>
+
+            <TouchableOpacity
+              style={styles.button}
+              onPress={() => { handleSubmit() }}
+            >
+              <Text>Upload</Text>
             </TouchableOpacity>
           </View>
 
-          {isLoading ? (
-            <ActivityIndicator size="large" color={Colours.PRIMARY} />
-          ) : (
-            image && (
-              <View style={styles.imagePreviewContainer}>
-                <Image source={{ uri: image }} style={styles.imagePreview} resizeMode="contain" />
-              </View>
-            )
-          )}
-
-          {error && <Text style={styles.error}>{error}</Text>}
-
-
-
-          <TextInput
-            label="Title"
-            value={formData.title}
-            onChangeText={(text) => setFormData({ ...formData, title: text })}
-            mode="outlined"
-            style={styles.input}
-            outlineColor={Colours.DARK}
-            activeOutlineColor={Colours.DARK}
-          />
-          <TextInput
-            label="Description"
-            value={formData.description}
-            onChangeText={(text) => setFormData({ ...formData, description: text })}
-            mode="outlined"
-            style={styles.input}
-            outlineColor={Colours.DARK}
-            activeOutlineColor={Colours.DARK}
-            multiline={true}
-            numberOfLines={4}
-          />
-
-          <MapView
-            provider={PROVIDER_GOOGLE}
-            style={styles.map}
-            region={{
-              latitude: location?.latitude,
-              longitude: location?.longitude,
-              latitudeDelta: 0.0922,
-              longitudeDelta: 0.0421,
-            }}
-
-          >
-            <Marker
-              draggable
-              coordinate={{
-                latitude: markerLocation?.latitude,
-                longitude: markerLocation?.longitude,
-              }}
-              onDragEnd={(e) => {
-                setMarkerLocation({
-                  latitude: e.nativeEvent.coordinate.latitude,
-                  longitude: e.nativeEvent.coordinate.longitude,
-                });
-                setFormData({
-                  ...formData,
-                  latitude: e.nativeEvent.coordinate.latitude,
-                  longitude: e.nativeEvent.coordinate.longitude,
-                });
-              }}
-            >
-              <FontAwesomeIcon icon={faFeatherPointed} size={30} style={styles.marker} />
-
-            </Marker>
-          </MapView>
-
-          <TouchableOpacity
-            style={styles.button}
-            onPress={() => {handleSubmit()}}
-          >
-            <Text>Upload</Text>
-          </TouchableOpacity>
-        </View>
-
-      </ImageBackground>
-    </ScrollView>
-    <Snackbar
-    visible={snackBarVisible}
-    onDismiss={() => setSnackBarVisible(false)}
-    duration={5000}
-    style={styles.snackbar}
-    action={{
-      label: 'X',
-    }}
-  >
-    {snackBarMessage}
-  </Snackbar>
-  </>
+        </ImageBackground>
+      </ScrollView>
+      <Snackbar
+        visible={snackBarVisible}
+        onDismiss={() => setSnackBarVisible(false)}
+        duration={5000}
+        style={styles.snackbar}
+        action={{
+          label: 'X',
+        }}
+      >
+        {snackBarMessage}
+      </Snackbar>
+    </>
   )
 }
 

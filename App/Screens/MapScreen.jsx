@@ -31,9 +31,9 @@ export default function MapScreen() {
   // Visble Notes
   useEffect(() => {
     userNotesChecked
-      ? setVisibleNotes(notes.filter((note) => note.user.id === userId))
+      ? setVisibleNotes(notes.filter((note) => note.user_id === userId))
       : setVisibleNotes(notes);
-  }, [userNotesChecked]);
+  }, [userNotesChecked], []);
 
   // Sets the markers when the page loads and when the visable notes are updated
   useEffect(() => {
@@ -42,8 +42,8 @@ export default function MapScreen() {
         <Marker
           key={note.id}
           coordinate={{
-            latitude: note.location.latitude,
-            longitude: note.location.longitude,
+            latitude: note.latitude,
+            longitude: note.longitude,
           }}
           onPress={() => handleOpenPress(note)}
         >

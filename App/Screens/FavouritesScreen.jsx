@@ -36,7 +36,7 @@ export default function FavouritesScreen() {
             <Card.Title title={note.title} />
             
             <Card.Content>
-              <Text style={styles.username}>By: {note.user.username}</Text>
+              <Text style={styles.username}>By: {note.username}</Text>
               <Text>{note.description}</Text>
             </Card.Content>
             <Card.Actions>
