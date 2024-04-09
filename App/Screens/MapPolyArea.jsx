@@ -23,8 +23,8 @@ export default function MapPolyArea({ route }) {
 
     const isNoteInsidePolygon = (note) => {
         let noteLocation = {
-            latitude: note.location.latitude,
-            longitude: note.location.longitude
+            latitude: note.latitude,
+            longitude: note.longitude
         };
         let isInside = false;
         for (let i = 0, j = polygonShape.length - 1; i < polygonShape.length; j = i++) {
@@ -48,8 +48,8 @@ export default function MapPolyArea({ route }) {
                 <Marker
                     key={note.id}
                     coordinate={{
-                        latitude: note.location.latitude,
-                        longitude: note.location.longitude,
+                        latitude: note.latitude,
+                        longitude: note.longitude,
                     }}
                     onPress={() => handleOpenPress(note)}
                 >

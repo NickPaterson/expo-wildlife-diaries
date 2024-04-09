@@ -42,7 +42,7 @@ const MapBottomSheetModal = forwardRef((props, ref) => {
                     <Image source={{ uri: props.note.image }} style={styles.imagePreview} resizeMode="contain" />
                     <View style={styles.content}>
                         <Text style={styles.username}>
-                            By: {props.note.user.username}</Text>
+                            By: {props.note.username}</Text>
 
                         <Text style={styles.title}>{props.note.title}</Text>
 

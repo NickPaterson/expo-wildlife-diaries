@@ -1,7 +1,12 @@
 {
   "expo": {
-    "scheme": "wildlife-diaries",
     "name": "wildlife-diaries",
+    "extra": {
+      "eas": {
+        "projectId": "dc0b4197-32b7-4dcd-845b-31688100bf5b"
+      }
+    },
+    "scheme": "wildlife-diaries",
     "slug": "wildlife-diaries",
     "version": "1.0.0",
     "orientation": "portrait",
@@ -27,27 +32,17 @@
     "web": {
       "favicon": "./assets/favicon.png"
     },
-    "pugins": [
+    "plugins": [
       "expo-barcode-scanner",
-      {
-        "cameraPermission": "Allow Wildlife Diaries to access camera."
-      },
-      "expo-location",
-      {
+      ["expo-location", {
         "locationAlwaysAndWhenInUsePermission": "Allow Wildlife Diaries to use your location."
-      },
-      [
-        "expo-image-picker",
-        {
-          "photosPermission": "Wildlife Diaries accesses your photos to let you share them."
-        }
-      ],
-      [
-        "expo-camera",
-        {
-          "cameraPermission": "Allow Wildlife Diaries to access your camera"
-        }
-      ]
+      }],
+      ["expo-image-picker", {
+        "photosPermission": "Wildlife Diaries accesses your photos to let you share them."
+      }],
+      ["expo-camera", {
+        "cameraPermission": "Allow Wildlife Diaries to access your camera"
+      }]
     ]
   }
 }

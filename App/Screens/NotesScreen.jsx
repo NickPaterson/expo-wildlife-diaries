@@ -31,8 +31,9 @@ export default function NotesScreen() {
 
 
   const { notes, favourites, addFavourite, removeFavourite, removeNote, updateNote } = useNotes();
-  const userNotes = notes.filter((note) => note.user.id === userId);
+  const userNotes = notes.filter((note) => note.user_id === userId);
 
+  console.log(`notesScreen ${JSON.stringify(notes)}`);
 
   const displaySnackbar = (message) => {
     setSnackBarMessage(message);
@@ -222,15 +223,15 @@ export default function NotesScreen() {
                 provider={PROVIDER_GOOGLE}
                 style={styles.map}
                 region={{
-                  latitude: activeNote?.location.latitude,
-                  longitude: activeNote?.location.longitude,
+                  latitude: activeNote?.latitude,
+                  longitude: activeNote?.longitude,
                   latitudeDelta: 0.0922,
                   longitudeDelta: 0.0421,
                 }}  >
                 <Marker
                   coordinate={{
-                    latitude: activeNote?.location.latitude,
-                    longitude: activeNote?.location.longitude,
+                    latitude: activeNote?.latitude,
+                    longitude: activeNote?.longitude,
                   }}>
                   <FontAwesomeIcon icon={faFeatherPointed} size={30} style={styles.marker} />
                 </Marker>
