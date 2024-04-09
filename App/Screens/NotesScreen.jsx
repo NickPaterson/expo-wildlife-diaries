@@ -23,10 +23,9 @@ export default function NotesScreen() {
     title: '',
     description: '',
     image: '',
-    location: {
-      latitude: 0,
-      longitude: 0,
-    },
+    latitude: 0,
+    longitude: 0,
+
   });
 
 
@@ -163,8 +162,8 @@ export default function NotesScreen() {
                   provider={PROVIDER_GOOGLE}
                   style={styles.map}
                   region={{
-                    latitude: editFormData?.location.latitude,
-                    longitude: editFormData?.location.longitude,
+                    latitude: editFormData?.latitude,
+                    longitude: editFormData?.longitude,
                     latitudeDelta: 0.0922,
                     longitudeDelta: 0.0421,
                   }}
@@ -172,16 +171,15 @@ export default function NotesScreen() {
                   <Marker
                     draggable
                     coordinate={{
-                      latitude: editFormData?.location.latitude,
-                      longitude: editFormData?.location.longitude,
+                      latitude: editFormData?.latitude,
+                      longitude: editFormData?.longitude,
                     }}
                     onDragEnd={(e) => {
                       setEditFormData({
                         ...editFormData,
-                        location: {
-                          latitude: e.nativeEvent.coordinate.latitude,
-                          longitude: e.nativeEvent.coordinate.longitude,
-                        }
+                        latitude: e.nativeEvent.coordinate.latitude,
+                        longitude: e.nativeEvent.coordinate.longitude,
+
                       });
                     }}
                   >
@@ -304,14 +302,14 @@ export default function NotesScreen() {
               <Button
                 onPress={() => toggleFavorite(note)}
               >
-              
+
                 {favourites.includes(note)
                   ? <FontAwesomeIcon icon={faHeart} style={styles.heartIcon} />
                   : <FontAwesomeIcon icon={faHeartOutline} style={styles.heartOutlineIcon} />
-                  
+
                 }
 
-                
+
               </Button>
             </Card.Actions>
           </Card>
